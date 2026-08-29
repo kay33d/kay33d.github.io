@@ -6,8 +6,8 @@
 
 :root {
   /* ---- Type ---- */
-  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
-  --font-sans: "Public Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   /* ---- Palette: cool paper + deep navy ink + academic indigo accent ---- */
   --color-bg: #f5f6f7;
