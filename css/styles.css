@@ -1,0 +1,1223 @@
+/* ============================================================
+   Md Kaidul Islam — Academic Portfolio
+   Global stylesheet. Edit colors/type in :root to re-skin the
+   entire site from one place.
+   ============================================================ */
+
+:root {
+  /* ---- Type ---- */
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans: "Public Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* ---- Palette: cool paper + deep navy ink + academic indigo accent ---- */
+  --color-bg: #f5f6f7;
+  --color-bg-alt: #eaedf1;
+  --color-surface: #ffffff;
+  --color-text: #1d2430;
+  --color-text-muted: #59616c;
+  --color-text-faint: #8b929b;
+  --color-border: #dfe3e7;
+  --color-border-strong: #c9cfd5;
+  --color-accent: #2b4c7e;
+  --color-accent-dark: #1e3a63;
+  --color-accent-soft: #e3e9f3;
+  --color-accent-soft-2: #edf2fa;
+
+  --shadow-soft: 0 24px 50px -30px rgba(20, 26, 38, 0.3);
+  --shadow-card: 0 14px 30px -20px rgba(20, 26, 38, 0.25);
+
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 26px;
+
+  --maxw: 1120px;
+  --side-w: 236px;
+  --side-w-collapsed: 62px;
+  --side-h-mobile: 62px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  padding-left: var(--side-w-collapsed);
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-accent-dark);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.2;
+  margin: 0 0 0.5em;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+ul, ol {
+  margin: 0 0 1em;
+  padding-left: 1.2em;
+}
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.site-main {
+  padding-top: 56px;
+  padding-bottom: 40px;
+}
+
+/* ---- Eyebrow / kicker ---- */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+/* ---- Page header (used at top of interior pages) ---- */
+.page-header {
+  padding: 64px 0 48px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 56px;
+}
+
+.page-header h1 {
+  font-size: clamp(34px, 5vw, 52px);
+  margin-bottom: 14px;
+}
+
+.page-header p.lede {
+  font-size: 18px;
+  color: var(--color-text-muted);
+  max-width: 640px;
+  margin: 0;
+}
+
+/* ---- Section ---- */
+.section {
+  margin-bottom: 72px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.section-head h2 {
+  font-size: clamp(24px, 3vw, 30px);
+  margin: 0;
+}
+
+.section-head .section-note {
+  color: var(--color-text-faint);
+  font-size: 14px;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff8ee;
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-dark);
+  color: #fff8ee;
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent-dark);
+}
+
+.btn-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ---- Chips / tags ---- */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-block;
+  padding: 6px 13px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 999px;
+}
+
+.chip-outline {
+  background: transparent;
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   SIDE NAV — retractable sidebar. Collapsed by default to a
+   column of "pad binding" rings (one per page, filled = current);
+   hovering (or tapping, on touch) reveals the full labeled list.
+   See js/script.js for the slide/hover logic.
+   ============================================================ */
+
+.spine {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: var(--side-w);
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  z-index: 200;
+  overflow: hidden;
+  cursor: pointer;
+  transform: translateX(calc(-1 * (var(--side-w) - var(--side-w-collapsed))));
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.38s ease;
+}
+
+.spine:hover,
+.spine.is-open {
+  transform: translateX(0);
+  box-shadow: var(--shadow-soft);
+  cursor: default;
+}
+
+/* ---- Collapsed rail: one ring per page (sits in the sliver that
+   stays on-screen — the right edge of the always-236px-wide panel) ---- */
+.side-collapsed {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: var(--side-w-collapsed);
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.spine:hover .side-collapsed,
+.spine.is-open .side-collapsed {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.side-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+}
+
+.side-dot i {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+  border-top-color: transparent;
+  background: transparent;
+  font-style: normal;
+  animation: spineRingTurn 6s linear infinite;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.side-dot:hover i {
+  transform: scale(1.18);
+  border-color: var(--color-accent-dark);
+}
+
+.side-dot.is-active i {
+  border: none;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+  animation: none;
+}
+
+@keyframes spineRingTurn {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Expanded panel: revealed on hover / tap ---- */
+.side-expanded {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--side-w);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 26px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.spine:hover .side-expanded,
+.spine.is-open .side-expanded {
+  opacity: 1;
+  transition-delay: 0.05s;
+  pointer-events: auto;
+}
+
+.side-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 34px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.side-brand-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1.5px solid var(--color-accent);
+  box-shadow: var(--shadow-card);
+}
+
+.side-brand-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.side-brand-text {
+  font-family: var(--font-serif);
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.side-brand-text small {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 400;
+  color: var(--color-text-faint);
+  margin-top: 2px;
+}
+
+.side-links {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Minimalist animation: a thin accent bar glides between links on
+   hover, and settles on the active page when the pointer leaves. */
+.side-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--color-accent);
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), height 0.32s cubic-bezier(0.22, 1, 0.36, 1), width 0.32s ease;
+  pointer-events: none;
+}
+
+.side-link {
+  position: relative;
+  display: block;
+  padding: 10px 4px 10px 18px;
+  color: var(--color-text-muted);
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.side-link:hover {
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+}
+
+.side-link.is-active {
+  color: var(--color-accent-dark);
+  font-weight: 600;
+}
+
+.side-foot {
+  display: flex;
+  gap: 14px;
+  padding-top: 22px;
+  margin-top: 22px;
+  border-top: 1px solid var(--color-border);
+  font-size: 13px;
+}
+
+.side-foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.side-foot a:hover {
+  color: var(--color-accent);
+}
+
+.side-foot a:hover .link-icon {
+  background: var(--color-accent);
+  color: #fff8ee;
+}
+
+/* ============================================================
+   Curtain photo frames — blur as they scroll away from center
+   ============================================================ */
+
+.curtain-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-alt);
+  box-shadow: var(--shadow-soft);
+}
+
+.curtain-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+.curtain-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  will-change: filter, transform, opacity;
+  transition: filter 0.15s linear, transform 0.15s linear, opacity 0.15s linear;
+}
+
+.curtain-photo.ratio-portrait { aspect-ratio: 4 / 5; }
+.curtain-photo.ratio-square { aspect-ratio: 1 / 1; }
+.curtain-photo.ratio-landscape { aspect-ratio: 4 / 3; }
+
+/* ---- Frame accent behind hero photo ---- */
+.photo-frame {
+  position: relative;
+}
+
+.photo-frame::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: -22px;
+  right: 22px;
+  bottom: -22px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  z-index: -1;
+}
+
+/* ============================================================
+   Hero (home page)
+   ============================================================ */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 64px;
+  align-items: center;
+  padding: 40px 0 88px;
+}
+
+.hero h1 {
+  font-size: clamp(38px, 5.2vw, 60px);
+  margin-bottom: 20px;
+}
+
+.hero .role {
+  font-size: 19px;
+  color: var(--color-accent-dark);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.hero .lede {
+  font-size: 17.5px;
+  color: var(--color-text-muted);
+  max-width: 540px;
+  margin-bottom: 32px;
+}
+
+/* ---- Snapshot stat strip ---- */
+.snapshot {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 80px;
+}
+
+.snapshot-item {
+  background: var(--color-surface);
+  padding: 28px 24px;
+}
+
+.snapshot-item .snapshot-value {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  color: var(--color-accent-dark);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.snapshot-item .snapshot-label {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   Cards: timeline entries, projects, publications
+   ============================================================ */
+
+.entry {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.entry:last-child {
+  border-bottom: none;
+}
+
+.entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.entry-head h3 {
+  font-size: 21px;
+  margin: 0;
+}
+
+.entry-date {
+  font-size: 13.5px;
+  color: var(--color-text-faint);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.entry-sub {
+  color: var(--color-text-muted);
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.entry-body ul {
+  padding-left: 1.1em;
+}
+
+.entry-body li {
+  margin-bottom: 6px;
+  color: var(--color-text);
+}
+
+.entry-body li::marker {
+  color: var(--color-accent);
+}
+
+/* ---- Project / publication cards ---- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 28px;
+}
+
+/* ---- Featured Work carousel: only the centered card stays sharp;
+   the rest blur and recede by distance from center (see js/script.js) ---- */
+.featured-wrap {
+  position: relative;
+}
+
+.featured-viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 6px 0 30px;
+  cursor: grab;
+}
+
+.featured-viewport:active {
+  cursor: grabbing;
+}
+
+.featured-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.featured-track {
+  display: flex;
+  gap: 28px;
+  padding: 0 calc(50% - 170px);
+  touch-action: pan-y;
+}
+
+.featured-card {
+  flex: 0 0 340px;
+  scroll-snap-align: center;
+  will-change: filter, transform, opacity;
+}
+
+.featured-nav-btn {
+  position: absolute;
+  top: calc(50% - 15px);
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-accent-dark);
+  z-index: 5;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.featured-nav-btn:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.featured-nav-prev {
+  left: -14px;
+}
+
+.featured-nav-next {
+  right: -14px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-thumb {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-bg-alt);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.15s linear, transform 0.15s linear, opacity 0.15s linear;
+}
+
+.card-body {
+  padding: 22px 24px 26px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body h3 {
+  font-size: 17.5px;
+  margin-bottom: 4px;
+}
+
+.card-year {
+  font-size: 12.5px;
+  color: var(--color-text-faint);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.card-body p {
+  font-size: 14.5px;
+  color: var(--color-text-muted);
+  margin-bottom: 14px;
+}
+
+.card-body .chip-row {
+  margin-top: auto;
+}
+
+/* ---- Publication feature block ---- */
+.publication-feature {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 40px;
+  align-items: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-card);
+}
+
+.publication-feature .card-thumb {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.publication-journal {
+  font-size: 13.5px;
+  color: var(--color-accent-dark);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+/* ---- Callout / summary panel ---- */
+.callout {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 28px 32px;
+  color: var(--color-text);
+  font-size: 16px;
+}
+
+.pull-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.55;
+  color: var(--color-text);
+  border-left: 2px solid var(--color-accent);
+  padding-left: 24px;
+  margin: 0;
+}
+
+/* ============================================================
+   About page layout
+   ============================================================ */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 64px;
+  align-items: start;
+  margin-bottom: 72px;
+}
+
+/* ============================================================
+   CV page — PDF slot
+   ============================================================ */
+
+.pdf-slot {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20px;
+}
+
+.pdf-slot object,
+.pdf-slot embed {
+  width: 100%;
+  height: 780px;
+  display: block;
+  border: none;
+}
+
+.pdf-fallback {
+  padding: 80px 40px;
+  text-align: center;
+  color: var(--color-text-muted);
+  background: var(--color-bg-alt);
+}
+
+.pdf-fallback .pdf-icon {
+  width: 56px;
+  height: 72px;
+  margin: 0 auto 20px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 4px;
+  position: relative;
+}
+
+.pdf-fallback .pdf-icon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  background: var(--color-bg-alt);
+  border-left: 1.5px solid var(--color-border-strong);
+  border-bottom: 1.5px solid var(--color-border-strong);
+}
+
+.cv-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-border);
+}
+
+.cv-links a {
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.cv-links a:hover {
+  color: var(--color-accent);
+}
+
+/* ============================================================
+   Empty state (Awards / Others placeholders)
+   ============================================================ */
+
+.empty-state {
+  border: 1.5px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  padding: 48px 36px;
+  text-align: center;
+  color: var(--color-text-faint);
+  background: var(--color-bg-alt);
+}
+
+.empty-state p {
+  margin: 0 auto;
+  max-width: 440px;
+  font-size: 14.5px;
+}
+
+.empty-state .empty-tag {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-bottom: 14px;
+}
+
+/* ============================================================
+   Contact page
+   ============================================================ */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.contact-list li {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.contact-list .link-icon {
+  margin-top: 2px;
+}
+
+.contact-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact-list .contact-label {
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-faint);
+}
+
+.contact-list .contact-value {
+  font-size: 17px;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.contact-list .contact-value a {
+  color: var(--color-text);
+}
+
+.contact-list .contact-value a:hover {
+  color: var(--color-accent);
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-field label {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.form-note {
+  font-size: 13px;
+  color: var(--color-text-faint);
+  margin-top: 4px;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  padding: 32px 0 48px;
+  margin-top: 40px;
+}
+
+.footer-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-inner p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--color-text-faint);
+}
+
+.footer-links {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.footer-links a:hover {
+  color: var(--color-accent);
+}
+
+.footer-links a:hover .link-icon {
+  background: var(--color-accent);
+  color: #fff8ee;
+}
+
+/* ---- Reusable icon badge used by footer + sidebar + contact links ---- */
+.link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.link-icon svg {
+  display: block;
+}
+
+/* Real service logos (email/LinkedIn/GitHub) sit on their own
+   badge instead of our accent circle, at a mild rounded-square. */
+.link-icon--logo {
+  background: transparent;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.link-icon--logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.footer-links a:hover .link-icon--logo,
+.side-foot a:hover .link-icon--logo {
+  background: transparent;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 880px) {
+  .hero,
+  .about-grid,
+  .contact-grid,
+  .publication-feature {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-bottom: 56px;
+  }
+
+  .photo-frame {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .snapshot {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .featured-track {
+    padding: 0 9vw;
+  }
+
+  .featured-card {
+    flex-basis: 82vw;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrap,
+  .footer-inner {
+    padding: 0 22px;
+  }
+
+  .page-header {
+    padding: 48px 0 36px;
+  }
+
+  .snapshot {
+    grid-template-columns: 1fr;
+  }
+
+  .entry-head {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 760px) {
+  body {
+    padding-left: 0;
+    padding-top: var(--side-h-mobile);
+  }
+
+  /* Mobile: skip the collapse/expand dance entirely — the horizontal
+     top bar is slim enough to just show the full labeled row always. */
+  .spine {
+    width: 100%;
+    height: auto;
+    min-height: var(--side-h-mobile);
+    top: 0;
+    left: 0;
+    right: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    transform: none;
+    cursor: default;
+  }
+
+  .side-collapsed {
+    display: none;
+  }
+
+  .side-expanded {
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 16px;
+    gap: 16px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .side-brand {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    flex-shrink: 0;
+  }
+
+  .side-brand-text {
+    display: none;
+  }
+
+  .side-links {
+    flex: 1;
+    flex-direction: row;
+    gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .side-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .side-link {
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+
+  .side-foot {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    border-left: 1px solid var(--color-border);
+    padding-left: 16px;
+    flex-shrink: 0;
+  }
+
+  .side-foot .link-label {
+    display: none;
+  }
+
+  .featured-nav-btn {
+    display: none;
+  }
+}
