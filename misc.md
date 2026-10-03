@@ -20,6 +20,7 @@ description: News, teaching, education, research, leadership and contact details
 ## Teaching {#teaching}
 
 ### Adjunct Lecturer, Manarat International University
+Department of EEEE
 Sep 2026 – present · joined 11 September 2026
 {: .entry-meta}
 
