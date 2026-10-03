@@ -10,7 +10,7 @@ description: News, teaching, education, research, leadership and contact details
 # Misc
 {: data-preview="true"}
 
-[News](#news) · [Teaching](#teaching) · [Education](#education) · [Research](#research) · [Leadership](#leadership) · [Interests](#interests) · [Contact](#contact)
+[News](#news) · [Teaching](#teaching) · [Education](#education) · [Research](#research) · [Leadership](#leadership) · [Editorial](#editorial) · [Interests](#interests) · [Contact](#contact)
 {: .muted data-preview="true"}
 
 ## News {#news}
@@ -62,6 +62,14 @@ Mar 2025 – Jul 2026
 {: .entry-meta}
 
 Led the organization of "BUET Boimela," a major campus literary event, coordinating external publishers and student volunteers.
+
+## Editorial {#editorial}
+
+### Main Editor, EEE Day 2026 Magazine — *Toritbarta*
+2026
+{: .entry-meta}
+
+Led the editing and publication of the EEE Day 2026 magazine. [Read the magazine ↗](https://drive.google.com/file/d/1FaK69lSalh3nXqgUpgSPOpXGHre0B0bO/view){:target="_blank" rel="noopener"}
 
 ## Interests {#interests}
 

@@ -39,6 +39,9 @@ function initPreviews() {
     var raw = a.getAttribute("href");
     if (!raw || raw.charAt(0) === "#" || /^(mailto|tel|javascript):/i.test(raw)) return null;
     var url = new URL(raw, location.href);
+    // Google Drive files (e.g. a magazine PDF) open in Drive's own viewer.
+    var drive = url.hostname === "drive.google.com" && url.pathname.match(/^\/file\/d\/([\w-]+)/);
+    if (drive) return { url: url, kind: "pdf", src: "https://drive.google.com/file/d/" + drive[1] + "/preview" };
     if (url.origin !== location.origin) return null;
     var file = url.pathname.split("/").pop() || "index.html";
     if (/\.pdf$/i.test(file)) return { url: url, kind: "pdf" };
@@ -149,7 +152,8 @@ function initPreviews() {
     currentLink = a;
     if (target.kind === "pdf") {
       pop.className = "preview is-pdf";
-      pop.innerHTML = '<iframe src="' + target.url.pathname + '#navpanes=0&pagemode=none&view=FitH" title="PDF preview"></iframe>';
+      var src = target.src || target.url.pathname + "#navpanes=0&pagemode=none&view=FitH";
+      pop.innerHTML = '<iframe src="' + src + '" title="PDF preview"></iframe>';
       place(a);
       pop.classList.add("is-visible");
       return;
