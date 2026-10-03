@@ -1,48 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Publications — Md Kaidul Islam</title>
-<meta name="description" content="Publications by Md Kaidul Islam." />
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-<script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"))}catch(e){}</script>
-<link rel="stylesheet" href="css/styles.css" />
-</head>
-<body data-page="publications">
-
-  <header class="masthead" data-masthead-mount></header>
-
-  <div class="layout">
-    <aside class="sidebar" data-sidebar-mount></aside>
-
-    <main class="page-content">
-
+---
+title: Publications
+description: Publications by Md Kaidul Islam.
+---
+{%- comment -%}
+  Publications come from the _publications/ folder — one Markdown file each.
+  Fields: anchor, title, badge (short venue name), when, order, paper (link), image (optional).
+{%- endcomment -%}
       <h1>Publications</h1>
-
-      <!-- Add a publication: copy the <article> below. Give it a short id so
-           other pages can link to it as publications.html#your-id -->
-      <article class="entry no-thumb" id="cae-net">
+{% assign items = site.publications | sort: "order" %}
+{% for p in items %}
+      <article class="entry{% unless p.image %} no-thumb{% endunless %}" id="{{ p.anchor }}">
+        {%- if p.image %}
+        <div class="entry-thumb"><img src="{{ p.image }}" alt="{{ p.title | escape }}" /></div>
+        {%- endif %}
         <div>
-          <h3 class="entry-title">
-            <span class="badge">JVCIR</span>CAE-Net: Generalized Deepfake Image Detection Using Convolution and Attention Mechanisms with Spatial and Frequency Domain Features
-          </h3>
-          <p class="entry-meta">Second author · Journal of Visual Communication and Image Representation (Elsevier, Q1) · May 2025</p>
-          <p>
-            A deepfake image detector that combines convolutional and attention mechanisms over both
-            spatial and frequency-domain features, aimed at generalizing to unseen manipulation methods.
-          </p>
-          <p class="links">
-            <a href="https://www.sciencedirect.com/science/article/pii/S1047320325002937" target="_blank" rel="noopener">Paper ↗</a>
-          </p>
+          <h3 class="entry-title">{% if p.badge %}<span class="badge">{{ p.badge }}</span>{% endif %}{{ p.title }}</h3>
+          <p class="entry-meta">{{ p.when }}</p>
+          {{ p.content | markdownify }}
+          {%- if p.paper %}
+          <p class="links"><a href="{{ p.paper }}" target="_blank" rel="noopener">Paper ↗</a></p>
+          {%- endif %}
         </div>
       </article>
-
-    </main>
-  </div>
-
-  <footer class="site-footer" data-footer-mount></footer>
-
-  <script src="js/script.js"></script>
-</body>
-</html>
+{% endfor %}

@@ -1,162 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Projects — Md Kaidul Islam</title>
-<meta name="description" content="Engineering and machine learning projects by Md Kaidul Islam." />
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-<script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"))}catch(e){}</script>
-<link rel="stylesheet" href="css/styles.css" />
-</head>
-<body data-page="projects">
-
-  <header class="masthead" data-masthead-mount></header>
-
-  <div class="layout">
-    <aside class="sidebar" data-sidebar-mount></aside>
-
-    <main class="page-content">
-
+---
+title: Projects
+description: Engineering and machine learning projects by Md Kaidul Islam.
+---
+{%- comment -%}
+  Projects come from the _projects/ folder — one Markdown file each.
+  To add one, copy a file there and edit it. Front matter fields:
+    anchor      short name for links: projects.html#anchor (hovering previews just this project)
+    title       project name (wrap in "quotes" if it contains a colon)
+    when        year and context, shown under the title
+    order       position on this page (1 = top)
+    tags        list of keywords
+    report      optional PDF in assets/reports/ (hovering the link shows the PDF)
+    code        optional GitHub link; code_label changes its text
+    video       optional YouTube / Drive link
+    image       optional thumbnail, e.g. assets/project-7.jpg
+{%- endcomment -%}
       <h1>Projects</h1>
       <p class="muted">Machine learning, embedded systems, power electronics and RF. Hover a report link to read it here.</p>
-
-      <!-- Add a project: copy an <article>. Its id lets other pages link to it as
-           projects.html#your-id — hovering such a link previews ONLY this article.
-           Reports go in assets/reports/ and are linked from the .links line.
-           Thumbnail: remove "no-thumb" and put
-           <div class="entry-thumb"><img src="assets/your-image.jpg" alt="..." /></div>
-           as the first thing inside the <article>. -->
-
-      <article class="entry no-thumb" id="hybrid-router">
+{% assign items = site.projects | sort: "order" %}
+{% for p in items %}
+      <article class="entry{% unless p.image %} no-thumb{% endunless %}" id="{{ p.anchor }}">
+        {%- if p.image %}
+        <div class="entry-thumb"><img src="{{ p.image }}" alt="{{ p.title | escape }}" /></div>
+        {%- endif %}
         <div>
-          <h3 class="entry-title">Hybrid Router for Token Optimization</h3>
-          <p class="entry-meta">2026 · Ongoing</p>
-          <p>An LLM routing system that decides, per query, whether a small local model can answer or whether it needs a remote LLM — cutting token cost without giving up quality on hard queries.</p>
-          <ul>
-            <li>Grammar-constrained intent classification makes the routing decision reliable and parseable.</li>
-            <li>Simple tasks run on a local model served with llama.cpp (GGUF); complex ones go to a remote LLM.</li>
-          </ul>
-          <p class="tags">LLM routing · llama.cpp / GGUF · RAG / agents · Docker</p>
-        </div>
-      </article>
-
-      <article class="entry no-thumb" id="knee-mri">
-        <div>
-          <h3 class="entry-title">Edge-Deployable Knee MRI Abnormality Classifier</h3>
-          <p class="entry-meta">2026 · Ongoing</p>
-          <p>A classifier for 12 knee MRI abnormalities, designed to run on edge devices.</p>
-          <ul>
-            <li>MRI labels were generated using an intent classifier and an API.</li>
-          </ul>
-          <p class="tags">NLP · Hugging Face · DICOM · medical imaging</p>
-        </div>
-      </article>
-
-      <article class="entry no-thumb" id="traffic">
-        <div>
-          <h3 class="entry-title">Smart Traffic Management via SAHI-Enhanced YOLOv8 &amp; ByteTrack</h3>
-          <p class="entry-meta">2026 · EEE 402, BUET · with Iswar Ghosh Rony and Md. Abu Sufian Promise</p>
-          <p>Traffic monitoring from drone footage. Vehicles in high-resolution aerial frames are tiny, so frames are cut into overlapping tiles (SAHI) before detection, then tracked across frames and scored per region for congestion.</p>
-          <ul>
-            <li>Pipeline: 640×640 tiles with 25% overlap → YOLOv8m per tile → merge + NMS → two-stage ByteTrack association → per-region density and speed → congestion level.</li>
-            <li>SAHI raised detection mAP@0.5 from 0.433 to 0.560 (+29%), and small-object mAP by 48%, over plain YOLOv8m.</li>
-            <li>Tracking reached 82.1 MOTA and 79.4 IDF1 with 18 ID switches, ahead of DeepSORT, FairMOT and stock ByteTrack.</li>
-          </ul>
-          <p class="tags">YOLOv8 · SAHI · ByteTrack · multi-object tracking · VisDrone · Python</p>
+          <h3 class="entry-title">{{ p.title }}</h3>
+          <p class="entry-meta">{{ p.when }}</p>
+          {{ p.content | markdownify }}
+          {%- if p.tags %}
+          <p class="tags">{{ p.tags | join: " · " }}</p>
+          {%- endif %}
+          {%- if p.report or p.code or p.video %}
           <p class="links">
-            <a href="https://github.com/kay33d/smart-traffic-sahi-bytetrack" target="_blank" rel="noopener">Code &amp; paper ↗</a>
+            {%- if p.report %}<a href="{{ p.report }}">Report (PDF)</a>{% endif %}
+            {%- if p.code %}<a href="{{ p.code }}" target="_blank" rel="noopener">{{ p.code_label | default: "Code" }} ↗</a>{% endif %}
+            {%- if p.video %}<a href="{{ p.video }}" target="_blank" rel="noopener">Video ↗</a>{% endif %}
           </p>
+          {%- endif %}
         </div>
       </article>
-
-      <article class="entry no-thumb" id="wilkinson">
-        <div>
-          <h3 class="entry-title">Wilkinson Power Divider: Equal &amp; Unequal 2-Way Power Division</h3>
-          <p class="entry-meta">2026</p>
-          <p>Designed and simulated equal-split and unequal-split (2:1) Wilkinson power dividers at 2.2 GHz on FR-4 and Rogers-type microstrip substrates, comparing their S-parameters.</p>
-          <p class="tags">CST Studio Suite · microstrip / RF design · S-parameters</p>
-        </div>
-      </article>
-
-      <article class="entry no-thumb" id="cold-chain">
-        <div>
-          <h3 class="entry-title">ESP32-Based Wireless Sensor Network for Real-Time Cold Chain Monitoring</h3>
-          <p class="entry-meta">2025 · EEE 416 Microprocessors &amp; Embedded Systems Lab, BUET · team of 4</p>
-          <p>An IoT vaccine carrier that watches temperature, humidity, pressure, orientation and location during transport, and sends an SMS and updates a web dashboard the moment conditions leave the safe 2–8 °C range.</p>
-          <ul>
-            <li>Two controllers: an ESP32-S3 reads the BME280, MPU-6050 and NEO-8M GPS and runs the threshold logic; a TTGO T-Call ESP32 with SIM800L sends GSM alerts. They talk over ESP-NOW.</li>
-            <li>Alerts arrive in about 5 seconds; stable through an 8-hour endurance test and a 6-hour real-world run with 100% success; about 7 days on a 10,000 mAh battery.</li>
-            <li><strong>My part:</strong> ESP-NOW link, ESP32-S3 firmware and sensor acquisition, hardware design, system integration, sensor calibration and validation.</li>
-          </ul>
-          <p class="tags">ESP32 · ESP-NOW · GSM / GPS · IoT · web dashboard</p>
-          <p class="links">
-            <a href="assets/reports/cold-chain-monitor-report.pdf">Report (PDF)</a>
-            <a href="https://github.com/Chrollo8/ESP32-Based-Wireless-Sensor-Network-for-Real-Time-Logistics-and-Cold-Chain-Monitoring" target="_blank" rel="noopener">Code ↗</a>
-            <a href="https://drive.google.com/drive/folders/1M_msSI9Zwd7alhYS4FyEzVGud9_3yOo0?usp=sharing" target="_blank" rel="noopener">Demo video ↗</a>
-          </p>
-        </div>
-      </article>
-
-      <article class="entry no-thumb" id="boost-converter">
-        <div>
-          <h3 class="entry-title">Multi-Level DC-DC Boost Converter</h3>
-          <p class="entry-meta">2025 · EEE 316 Power Electronics Lab, BUET · team of 4</p>
-          <p>A three-level boost converter that steps a 13.5 V input up to 45 V, 90 V or 135 V, built to avoid the efficiency and regulation problems a single-stage boost has at high gain.</p>
-          <ul>
-            <li>A 3524 switching-regulator IC generates the gate pulses; a CD4050 buffer drives the GT30J322 IGBT. A 9 V transformer was repurposed as the inductor.</li>
-            <li>Measured 45.1 V, 91.2 V and 137.8 V against 45 / 90 / 135 V targets, with roughly 98% efficiency and stable output under changing load.</li>
-          </ul>
-          <p class="tags">Power electronics · circuit simulation · IGBT gate drive</p>
-          <p class="links">
-            <a href="assets/reports/boost-converter-report.pdf">Report (PDF)</a>
-          </p>
-        </div>
-      </article>
-
-      <article class="entry no-thumb" id="cpld-signage">
-        <div>
-          <h3 class="entry-title">CPLD-Based LED Billboard (Digital Signage)</h3>
-          <p class="entry-meta">2024 · EEE 304 Digital Electronics Lab, BUET · team of 4</p>
-          <p>A programmable signage system on an 8×8 dot-matrix LED display driven by an LP-2900 CPLD, showing scrolling text and animations chosen with switches.</p>
-          <ul>
-            <li>Modular Verilog design for display patterns, four-direction scrolling and frame animations (e.g. a walking figure), verified in Quartus simulation before hardware.</li>
-            <li>Smooth scrolling, clean frame transitions and immediate response to mode switches on the final board.</li>
-          </ul>
-          <p class="tags">Verilog · CPLD · Quartus · digital design</p>
-          <p class="links">
-            <a href="assets/reports/cpld-led-billboard-report.pdf">Report (PDF)</a>
-            <a href="https://github.com/kay33d/CPLD-digital-sinage" target="_blank" rel="noopener">Code ↗</a>
-            <a href="https://drive.google.com/drive/folders/1DNTFCHYRaVswgt7Q_mbn5U4-l31f4bF7" target="_blank" rel="noopener">Video ↗</a>
-          </p>
-        </div>
-      </article>
-
-      <article class="entry no-thumb" id="robotic-arm">
-        <div>
-          <h3 class="entry-title">Librarian Arm: Semi-Autonomous Book Retrieval Robot</h3>
-          <p class="entry-meta">2024 · EEE 318 Control Systems Lab, BUET · team of 5</p>
-          <p>A low-cost robot that finds a specific book on a shelf and pulls it out without damaging it.</p>
-          <ul>
-            <li>An ESP32-CAM spots the target book by its ArUco marker; ultrasonic sensors guide a DC gear motor and linear actuator into position; servos set tilt and grip; an Arduino Mega runs the sequence.</li>
-            <li>A force-sensitive resistor stops the clamp before it squeezes too hard. The arm reliably stopped within ±1.5 cm of the target across repeated trials.</li>
-            <li><strong>My part:</strong> led component procurement, built the frame and motor/actuator mounts, integrated the FSR, and worked on full-system testing and calibration.</li>
-          </ul>
-          <p class="tags">Arduino · ESP32-CAM · ArUco · sensors &amp; actuators · mechatronics</p>
-          <p class="links">
-            <a href="assets/reports/librarian-arm-report.pdf">Report (PDF)</a>
-            <a href="https://github.com/Chrollo8/Librarian-Arm" target="_blank" rel="noopener">Code ↗</a>
-            <!-- VIDEO: upload to YouTube (Unlisted is fine), then replace this comment with
-                 <a href="https://youtu.be/VIDEO_ID" target="_blank" rel="noopener">Video ↗</a> -->
-          </p>
-        </div>
-      </article>
-
-    </main>
-  </div>
-
-  <footer class="site-footer" data-footer-mount></footer>
-
-  <script src="js/script.js"></script>
-</body>
-</html>
+{% endfor %}

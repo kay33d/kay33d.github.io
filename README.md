@@ -1,39 +1,57 @@
 # Md Kaidul Islam — Academic Portfolio
 
-Static, dependency-free site (HTML/CSS/JS, no build step). Push to GitHub Pages and it works.
+Built with **Jekyll**, which GitHub Pages runs automatically: edit a Markdown or
+YAML file, push, and the site rebuilds in about a minute. Nothing to install.
 
-## Pages
+## Where things live
 
 ```
-index.html          About — short intro + latest news
-publications.html   Publications
-projects.html       Projects
-cv.html             CV (embeds assets/CV.pdf)
-misc.html           News archive, education, research, leadership, interests, contact
-css/styles.css      The only stylesheet (colors for day + night are tokens at the top)
-js/script.js        Nav, sidebar, footer, NEWS list, theme toggle, link previews
+_config.yml          Name, sidebar bio and links, site description
+_data/news.yml       Latest news (newest first) — home shows 5, Misc shows all
+_data/navigation.yml Top menu
+_projects/*.md       One file per project (details, report, code, video links)
+_publications/*.md   One file per publication
+index.md             About (home page)
+misc.md              Teaching, education, research, leadership, interests, contact
+cv.html              CV page (embeds assets/CV.pdf)
+projects.html        Page template that lists _projects/ (no need to edit)
+publications.html    Page template that lists _publications/ (no need to edit)
+assets/reports/      Project report PDFs
+_layouts/, _includes/  Shared page frame: menu, sidebar, footer, news list
+css/styles.css       All styling; day + night colors are tokens at the top
+js/script.js         Day/night toggle and link previews
 ```
 
 about / education / experience / awards / others / contact / publications-projects.html
-are one-line redirects so old links keep working.
+are redirects so old links keep working.
 
 ## Common edits
 
-- **Add news:** add a line at the top of `NEWS` in `js/script.js`. The home page shows
-  the first 5 (`<ul data-news="5">`), misc.html shows all.
-- **Nav / sidebar links:** `NAV_ITEMS`, `SITE` and `AUTHOR_LINKS` in `js/script.js`.
-- **Add a project or paper:** copy an `<article class="entry">` block. Give it an `id`
-  so other pages can link to `projects.html#that-id`.
-- **Thumbnails:** remove `no-thumb` from the article and add
-  `<div class="entry-thumb"><img src="assets/x.jpg" alt="..." /></div>` as its first child.
-- **Awards, test scores, tutorials, book reviews:** commented-out templates in misc.html.
+- **Add news:** add an entry at the top of `_data/news.yml`.
+- **Add a project:** copy a file in `_projects/`, edit the fields at the top and the
+  description below. The fields are explained at the top of `projects.html`.
+- **Add a report:** put the PDF in `assets/reports/` and set `report:` in the project file.
+- **Add a video:** upload to YouTube (Unlisted is fine) and set `video:` in the project file.
 - **Update CV:** replace `assets/CV.pdf` (same name).
+- **Optional sections** (awards, test scores, tutorials): templates are commented out in `misc.md`.
 
 ## Link previews
 
-Hovering a link to another page on this site shows that page (scrolled to the `#section`
-if the link has one) in a popover you can scroll and read. Links to a `.pdf` show the PDF
-itself, so reports linked as `assets/report.pdf` can be read without leaving the page.
-Add `data-no-preview` to an `<a>` to turn it off. Previews only run on devices with a
-mouse, and not when opening files directly from disk — to test locally run
-`python -m http.server` in this folder and open http://localhost:8000.
+Hovering a link to another page on this site shows what it points to:
+- `projects.html#robotic-arm` → just that project
+- `misc.html#teaching` → just that section
+- `projects.html` → the page title and a list of what's on it
+- a `.pdf` link → the PDF itself, readable in place
+
+Add `data-no-preview` to an `<a>` (or `{:data-no-preview=""}` after a Markdown link) to turn it off.
+
+## Previewing on your computer (optional)
+
+Needs Ruby. In this folder:
+
+```
+bundle install
+bundle exec jekyll serve
+```
+
+then open http://localhost:4000.

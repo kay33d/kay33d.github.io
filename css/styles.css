@@ -213,6 +213,10 @@ code { font-family: var(--font-mono); font-size: 0.88em; }
    CONTENT BLOCKS
    ============================================================ */
 .lede { font-size: 1.05rem; }
+
+/* Entries written in Markdown (misc.md): "### Title" then a .entry-meta line */
+.page-content > h3 { margin: 1.5em 0 0.15em; }
+.page-content > h2 + h3 { margin-top: 1em; }
 .muted { color: var(--muted); }
 .small { font-size: 0.85rem; }
 

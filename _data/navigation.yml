@@ -1,0 +1,16 @@
+# Top menu, in order. `url` is the page's address on the site.
+- label: About
+  url: /
+  href: index.html
+- label: Publications
+  url: /publications.html
+  href: publications.html
+- label: Projects
+  url: /projects.html
+  href: projects.html
+- label: CV
+  url: /cv.html
+  href: cv.html
+- label: Misc
+  url: /misc.html
+  href: misc.html

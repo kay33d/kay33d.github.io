@@ -1,0 +1,4 @@
+<div class="footer-inner">
+  <span>&copy; {{ site.time | date: "%Y" }} {{ site.author.name }}. {{ site.author.location }}.</span>
+  <nav>{% for item in site.data.navigation %}<a href="{{ item.href }}" data-no-preview>{{ item.label }}</a>{% endfor %}</nav>
+</div>

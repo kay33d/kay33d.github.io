@@ -1,116 +1,9 @@
 /* ============================================================
    Md Kaidul Islam — Academic Portfolio
-   Shared by every page. Builds the top nav, the author sidebar,
-   the footer and the news lists from the data below, runs the
-   day/night toggle, and shows hover previews of internal links.
-
-   ---------------------------------------------------------------
-   TO ADD NEWS:        add one line at the TOP of the NEWS array.
-   TO EDIT THE NAV:    edit NAV_ITEMS (`page` must match the page's
-                       <body data-page="...">).
-   TO EDIT THE SIDEBAR: edit SITE and AUTHOR_LINKS.
+   The menu, sidebar, footer and news are built by Jekyll (see
+   _layouts/, _includes/ and _data/). This script only runs the
+   day/night toggle and the hover previews of internal links.
    ============================================================ */
-
-var SITE = {
-  name: "Md Kaidul Islam",
-  bio: "Adjunct Lecturer, Manarat International University. EEE, BUET. Computer vision, NLP &amp; deep learning.",
-  avatar: "assets/profile.jpg"
-};
-
-var NAV_ITEMS = [
-  { href: "index.html", page: "home", label: "About" },
-  { href: "publications.html", page: "publications", label: "Publications" },
-  { href: "projects.html", page: "projects", label: "Projects" },
-  { href: "cv.html", page: "cv", label: "CV" },
-  { href: "misc.html", page: "misc", label: "Misc" }
-];
-
-// Newest first. `text` may contain HTML; links to pages on this
-// site get a hover preview automatically.
-// The home page shows the first few; misc.html shows them all.
-var NEWS = [
-  { date: "Sep 2026", text: "Joined <a href=\"misc.html#teaching\">Manarat International University</a> as an Adjunct Lecturer, teaching Computer Programming and Computer Programming Laboratory." },
-  { date: "Jun 2026", text: "Graduated with a B.Sc. in Electrical and Electronic Engineering from <a href=\"misc.html#education\">BUET</a>." },
-  { date: "Apr 2026", text: "Completed my undergraduate thesis on <a href=\"misc.html#research\">tokenization and forgetting in Bangla OCR</a>." },
-  { date: "2026", text: "Started two new projects: a <a href=\"projects.html#hybrid-router\">hybrid LLM router</a> and an <a href=\"projects.html#knee-mri\">edge-deployable knee MRI classifier</a>." },
-  { date: "Jun 2025", text: "Co-founded the <a href=\"misc.html#leadership\">Thakurgaon Science Society</a> to bring hands-on science to remote schools." },
-  { date: "May 2025", text: "Our paper <a href=\"publications.html#cae-net\">CAE-Net</a> on generalized deepfake detection was published in JVCIR (Elsevier, Q1)." },
-  { date: "Apr 2025", text: "Started my thesis with Dr. Maruf Ahmed, Dept. of EEE, BUET." },
-  { date: "Mar 2025", text: "Became Vice President of BUET Literature Club." },
-  { date: "Mar 2024", text: "Became General Secretary of IEEE EDS BUET Student Branch." }
-];
-
-var ICONS = {
-  location: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="10.5" r="3"></circle><path d="M12 21c4-4.2 7-7.8 7-11a7 7 0 1 0-14 0c0 3.2 3 6.8 7 11z"></path></svg>',
-  cv: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><polyline points="14 3 14 8 19 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="15" y2="17"></line></svg>',
-  email: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>',
-  github: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>',
-  linkedin: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>'
-};
-
-var AUTHOR_LINKS = [
-  { icon: "location", label: "Dhaka, Bangladesh" },
-  { icon: "email", label: "Email", href: "mailto:kaidul.tkg@gmail.com" },
-  { icon: "github", label: "GitHub", href: "https://github.com/kay33d" },
-  { icon: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/kaidul-islam-007buet" },
-  { icon: "cv", label: "CV (PDF)", href: "assets/CV.pdf" }
-];
-
-var MOON = '<svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg>';
-var SUN = '<svg class="icon-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>';
-
-function buildMasthead(currentPage) {
-  var links = NAV_ITEMS.map(function (n) {
-    var active = n.page === currentPage ? ' class="is-active" aria-current="page"' : "";
-    return '<a href="' + n.href + '"' + active + ">" + n.label + "</a>";
-  }).join("");
-  return (
-    '<div class="masthead-inner">' +
-      '<a class="site-title" href="index.html">' + SITE.name + "</a>" +
-      '<nav class="nav" aria-label="Main">' + links + "</nav>" +
-      '<button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle day/night mode" title="Toggle day/night mode">' + MOON + SUN + "</button>" +
-    "</div>"
-  );
-}
-
-function buildSidebar() {
-  var links = AUTHOR_LINKS.map(function (l) {
-    var icon = '<span class="icon icon-' + l.icon + '">' + ICONS[l.icon] + "</span>";
-    if (!l.href) return "<li><span>" + icon + l.label + "</span></li>";
-    var ext = /^https?:/.test(l.href) ? ' target="_blank" rel="noopener"' : "";
-    return '<li><a href="' + l.href + '"' + ext + ' data-no-preview>' + icon + l.label + "</a></li>";
-  }).join("");
-  return (
-    '<img class="author-avatar" src="' + SITE.avatar + '" alt="Portrait of ' + SITE.name + '" />' +
-    '<p class="author-name">' + SITE.name + "</p>" +
-    '<p class="author-bio">' + SITE.bio + "</p>" +
-    '<ul class="author-links">' + links + "</ul>"
-  );
-}
-
-function buildFooter() {
-  var links = NAV_ITEMS.map(function (n) {
-    return '<a href="' + n.href + '" data-no-preview>' + n.label + "</a>";
-  }).join("");
-  return (
-    '<div class="footer-inner">' +
-      "<span>&copy; " + new Date().getFullYear() + " " + SITE.name + ". Dhaka, Bangladesh.</span>" +
-      "<nav>" + links + "</nav>" +
-    "</div>"
-  );
-}
-
-// Fills every <ul data-news> in `root`. data-news="5" limits the count.
-function renderNews(root) {
-  var lists = root.querySelectorAll("[data-news]");
-  Array.prototype.forEach.call(lists, function (ul) {
-    var limit = parseInt(ul.getAttribute("data-news"), 10) || NEWS.length;
-    ul.classList.add("news");
-    ul.innerHTML = NEWS.slice(0, limit).map(function (n) {
-      return '<li><span class="news-date">' + n.date + "</span><span>" + n.text + "</span></li>";
-    }).join("");
-  });
-}
 
 /* ---------- Day / night ---------- */
 function setTheme(theme) {
@@ -164,7 +57,6 @@ function initPreviews() {
           var doc = new DOMParser().parseFromString(html, "text/html");
           var main = doc.querySelector(".page-content");
           if (!main) throw new Error("no content");
-          renderNews(main);
           return main;
         });
     }
@@ -172,7 +64,9 @@ function initPreviews() {
   }
 
   // What the popover shows:
-  //  - link with #id  -> only that item (the <article> or <section> holding it)
+  //  - link with #id  -> only that item: the <article> holding it, or for a
+  //                       heading, the heading plus everything up to the next
+  //                       heading of the same level
   //  - plain page link -> elements marked data-preview, or else the page title,
   //                       its first paragraph and a list of what's on the page
   function excerpt(main, url) {
@@ -183,7 +77,18 @@ function initPreviews() {
     var id = decodeURIComponent(url.hash.slice(1));
     var target = id && main.querySelector('[id="' + id.replace(/"/g, "") + '"]');
     if (target) {
-      add(target.closest("article, section") || target);
+      var block = target.closest("article, section");
+      if (block) {
+        add(block);
+      } else if (/^H[1-6]$/.test(target.tagName)) {
+        var level = +target.tagName.charAt(1);
+        for (var n = target; n; n = n.nextElementSibling) {
+          if (n !== target && /^H[1-6]$/.test(n.tagName) && +n.tagName.charAt(1) <= level) break;
+          add(n);
+        }
+      } else {
+        add(target);
+      }
     } else {
       var marked = main.querySelectorAll("[data-preview]");
       if (marked.length) {
@@ -191,12 +96,12 @@ function initPreviews() {
       } else {
         add(main.querySelector("h1"));
         add(main.querySelector("h1 ~ p"));
-        var items = main.querySelectorAll("article[id], section[id]");
+        var items = main.querySelectorAll("article[id], section[id], .page-content > h2[id]");
         if (items.length) {
           var ul = document.createElement("ul");
           ul.className = "preview-list";
           Array.prototype.forEach.call(items, function (it) {
-            var title = it.querySelector(".entry-title, h2");
+            var title = it.tagName === "H2" ? it : it.querySelector(".entry-title, h2");
             if (!title) return;
             var li = document.createElement("li");
             li.innerHTML = '<a href="' + page + "#" + it.id + '">' + title.textContent.trim() + "</a>";
@@ -294,19 +199,6 @@ function initPreviews() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  var page = document.body.getAttribute("data-page");
-
-  var mast = document.querySelector("[data-masthead-mount]");
-  if (mast) mast.innerHTML = buildMasthead(page);
-
-  var side = document.querySelector("[data-sidebar-mount]");
-  if (side) side.innerHTML = buildSidebar();
-
-  var foot = document.querySelector("[data-footer-mount]");
-  if (foot) foot.innerHTML = buildFooter();
-
-  renderNews(document);
-
   var toggle = document.querySelector("[data-theme-toggle]");
   if (toggle) {
     toggle.addEventListener("click", function () {

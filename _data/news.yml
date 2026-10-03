@@ -1,0 +1,30 @@
+# Newest first. `text` is Markdown — links to pages on this site
+# (e.g. projects.html#robotic-arm) get a hover preview.
+# The home page shows the first 5; misc.html shows all of them.
+
+- date: Sep 2026
+  text: Joined [Manarat International University](misc.html#teaching) as an Adjunct Lecturer, teaching Computer Programming and Computer Programming Laboratory.
+
+- date: Jun 2026
+  text: Graduated with a B.Sc. in Electrical and Electronic Engineering from [BUET](misc.html#education).
+
+- date: Apr 2026
+  text: Completed my undergraduate thesis on [tokenization and forgetting in Bangla OCR](misc.html#research).
+
+- date: "2026"
+  text: Started two new projects, a [hybrid LLM router](projects.html#hybrid-router) and an [edge-deployable knee MRI classifier](projects.html#knee-mri).
+
+- date: Jun 2025
+  text: Co-founded the [Thakurgaon Science Society](misc.html#leadership) to bring hands-on science to remote schools.
+
+- date: May 2025
+  text: Our paper [CAE-Net](publications.html#cae-net) on generalized deepfake detection was published in JVCIR (Elsevier, Q1).
+
+- date: Apr 2025
+  text: Started my thesis with Dr. Maruf Ahmed, Dept. of EEE, BUET.
+
+- date: Mar 2025
+  text: Became Vice President of BUET Literature Club.
+
+- date: Mar 2024
+  text: Became General Secretary of IEEE EDS BUET Student Branch.

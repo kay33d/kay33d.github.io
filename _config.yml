@@ -1,0 +1,46 @@
+# ============================================================
+# Site settings. GitHub Pages builds this site with Jekyll
+# automatically on every push — nothing to install.
+# ============================================================
+title: Md Kaidul Islam
+description: Md Kaidul Islam — Adjunct Lecturer at Manarat International University and EEE graduate from BUET, working on computer vision, NLP and deep learning.
+url: https://kay33d.github.io
+
+# ---- Sidebar ----
+author:
+  name: Md Kaidul Islam
+  bio: Adjunct Lecturer, Manarat International University. EEE, BUET. Computer vision, NLP &amp; deep learning.
+  avatar: assets/profile.jpg
+  location: Dhaka, Bangladesh
+  email: kaidul.tkg@gmail.com
+  github: kay33d
+  linkedin: kaidul-islam-007buet
+  cv: assets/CV.pdf
+
+# ---- One Markdown file per project / publication ----
+collections:
+  projects:
+    output: false
+  publications:
+    output: false
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - screenshots
+  - uploads
+
+# Every page uses the shared layout (menu, sidebar, footer)
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: default
