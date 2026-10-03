@@ -20,11 +20,10 @@ description: News, teaching, education, research, leadership and contact details
 ## Teaching {#teaching}
 
 ### Adjunct Lecturer, Manarat International University
-Department of EEEE
+Department of EEE
 Sep 2026 – present · joined 11 September 2026
 {: .entry-meta}
-
-Teaching Computer Programming and Computer Programming Laboratory.
+Courses: Computer Programming and Computer Programming Laboratory(EEE 2115)
 
 ## Education {#education}
 
@@ -67,7 +66,7 @@ Led the organization of "BUET Boimela," a major campus literary event, coordinat
 ## Editorial {#editorial}
 
 ### Main Editor, EEE Day 2026 Magazine — *Toritbarta*
-2026
+Sept 2026
 {: .entry-meta}
 
 Led the editing and publication of the EEE Day 2026 magazine. [Read the magazine ↗](https://drive.google.com/file/d/1FaK69lSalh3nXqgUpgSPOpXGHre0B0bO/view){:target="_blank" rel="noopener"}
