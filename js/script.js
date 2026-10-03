@@ -1,365 +1,277 @@
 /* ============================================================
    Md Kaidul Islam — Academic Portfolio
-   Global script: builds the always-visible sidebar nav + site
-   footer from the data below, drives the sliding hover indicator,
-   the curtain photo blur, and the Featured Work carousel blur.
-   Shared by every page.
+   Shared by every page. Builds the top nav, the author sidebar,
+   the footer and the news lists from the data below, runs the
+   day/night toggle, and shows hover previews of internal links.
 
    ---------------------------------------------------------------
-   TO ADD / REMOVE / REORDER A PAGE IN THE NAV:
-     Edit the NAV_ITEMS array below — every page updates at once.
-     `page` must match the matching page's <body data-page="...">.
-
-   TO ADD / REMOVE A SOCIAL OR CONTACT LINK (footer + sidebar foot):
-     Edit SOCIAL_LINKS (shown at the bottom of the sidebar) and/or
-     FOOTER_LINKS (shown in the page footer) below.
+   TO ADD NEWS:        add one line at the TOP of the NEWS array.
+   TO EDIT THE NAV:    edit NAV_ITEMS (`page` must match the page's
+                       <body data-page="...">).
+   TO EDIT THE SIDEBAR: edit SITE and AUTHOR_LINKS.
    ============================================================ */
 
 var SITE = {
   name: "Md Kaidul Islam",
-  role: "EEE, BUET",
-  brandImage: "assets/profile.jpg",
-  brandHref: "index.html"
+  bio: "EEE graduate, BUET. Computer vision, NLP &amp; deep learning.",
+  avatar: "assets/profile.jpg"
 };
 
 var NAV_ITEMS = [
-  { href: "index.html", page: "home", label: "Home" },
-  { href: "about.html", page: "about", label: "About Me" },
-  { href: "education.html", page: "education", label: "Education" },
-  { href: "experience.html", page: "experience", label: "Professional Experience" },
-  { href: "cv.html", page: "cv", label: "Curriculum Vitae" },
-  { href: "publications-projects.html", page: "publications", label: "Publications & Projects" },
-  { href: "awards.html", page: "awards", label: "Honors & Awards" },
-  { href: "others.html", page: "others", label: "Others" },
-  { href: "contact.html", page: "contact", label: "Contact" }
+  { href: "index.html", page: "home", label: "About" },
+  { href: "publications.html", page: "publications", label: "Publications" },
+  { href: "projects.html", page: "projects", label: "Projects" },
+  { href: "cv.html", page: "cv", label: "CV" },
+  { href: "misc.html", page: "misc", label: "Misc" }
 ];
 
-// Shown at the bottom of the sidebar.
-var SOCIAL_LINKS = [
-  { key: "linkedin", href: "https://linkedin.com/in/kaidul-islam-007buet", label: "LinkedIn", external: true },
-  { key: "github", href: "https://github.com/kay33d", label: "GitHub", external: true }
+// Newest first. `text` may contain HTML; links to pages on this
+// site get a hover preview automatically.
+// The home page shows the first few; misc.html shows them all.
+var NEWS = [
+  { date: "Jun 2026", text: "Graduated with a B.Sc. in Electrical and Electronic Engineering from <a href=\"misc.html#education\">BUET</a>." },
+  { date: "Apr 2026", text: "Completed my undergraduate thesis on <a href=\"misc.html#research\">tokenization and forgetting in Bangla OCR</a>." },
+  { date: "2026", text: "Started two new projects: a <a href=\"projects.html#hybrid-router\">hybrid LLM router</a> and an <a href=\"projects.html#knee-mri\">edge-deployable knee MRI classifier</a>." },
+  { date: "Jun 2025", text: "Co-founded the <a href=\"misc.html#leadership\">Thakurgaon Science Society</a> to bring hands-on science to remote schools." },
+  { date: "May 2025", text: "Our paper <a href=\"publications.html#cae-net\">CAE-Net</a> on generalized deepfake detection was published in JVCIR (Elsevier, Q1)." },
+  { date: "Apr 2025", text: "Started my thesis with Dr. Maruf Ahmed, Dept. of EEE, BUET." },
+  { date: "Mar 2024", text: "Became General Secretary of IEEE EDS BUET Student Branch and Vice President of BUET Literature Club." }
 ];
 
-// Shown in the site-wide page footer.
-var FOOTER_LINKS = [
-  { key: "email", href: "mailto:kaidul.tkg@gmail.com", label: "Email", external: false },
-  { key: "phone", href: "tel:+8801521765996", label: "Phone", external: false },
-  { key: "linkedin", href: "https://linkedin.com/in/kaidul-islam-007buet", label: "LinkedIn", external: true },
-  { key: "github", href: "https://github.com/kay33d", label: "GitHub", external: true }
-];
-
-// Icon badges for every link. Email/LinkedIn/GitHub use the real
-// service logos (assets/icon-*.png) — swap the file to re-brand.
-// Phone has no logo, so it keeps a small generic glyph.
 var ICONS = {
-  email: { type: "img", src: "assets/icon-gmail.png" },
-  phone: {
-    type: "svg",
-    markup:
-      '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.6 3.8c.8 0 1.6.5 1.8 1.3l.6 1.9c.2.6 0 1.3-.5 1.8L7.4 10c1.2 2.3 3.1 4.2 5.4 5.4l1.2-1.2c.5-.5 1.2-.7 1.8-.5l1.9.6c.8.2 1.3 1 1.3 1.8v1.9c0 1.2-1 2.1-2.2 2C10.2 20.5 3.5 13.8 3.2 6.2c0-1.2 1-2.2 2.2-2.2h1.2z"></path></svg>'
-  },
-  linkedin: { type: "img", src: "assets/icon-linkedin.png" },
-  github: { type: "img", src: "assets/icon-github.png" }
+  location: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="10.5" r="3"></circle><path d="M12 21c4-4.2 7-7.8 7-11a7 7 0 1 0-14 0c0 3.2 3 6.8 7 11z"></path></svg>',
+  cv: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><polyline points="14 3 14 8 19 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="15" y2="17"></line></svg>',
+  email: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>',
+  github: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>',
+  linkedin: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>'
 };
 
-function iconHTML(key) {
-  var icon = ICONS[key];
-  if (!icon) return "";
-  if (icon.type === "img") {
-    return '<span class="link-icon link-icon--logo"><img src="' + icon.src + '" alt="" /></span>';
-  }
-  return '<span class="link-icon">' + icon.markup + "</span>";
-}
+var AUTHOR_LINKS = [
+  { icon: "location", label: "Dhaka, Bangladesh" },
+  { icon: "email", label: "Email", href: "mailto:kaidul.tkg@gmail.com" },
+  { icon: "github", label: "GitHub", href: "https://github.com/kay33d" },
+  { icon: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/kaidul-islam-007buet" },
+  { icon: "cv", label: "CV (PDF)", href: "assets/CV.pdf" }
+];
 
-function linkHTML(item) {
-  var arrow = item.external ? " ↗" : "";
-  return (
-    '<a href="' + item.href + '"' + (item.external ? ' target="_blank" rel="noopener"' : "") + ">" +
-      iconHTML(item.key) +
-      '<span class="link-label">' + item.label + arrow + "</span>" +
-    "</a>"
-  );
-}
+var MOON = '<svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg>';
+var SUN = '<svg class="icon-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>';
 
-function buildSpineHTML(currentPage) {
-  var linksHTML = NAV_ITEMS.map(function (n) {
-    var active = n.page === currentPage ? " is-active" : "";
-    return '<a class="side-link' + active + '" href="' + n.href + '" data-page="' + n.page + '">' + n.label + "</a>";
+function buildMasthead(currentPage) {
+  var links = NAV_ITEMS.map(function (n) {
+    var active = n.page === currentPage ? ' class="is-active" aria-current="page"' : "";
+    return '<a href="' + n.href + '"' + active + ">" + n.label + "</a>";
   }).join("");
-
-  var dotsHTML = NAV_ITEMS.map(function (n) {
-    var active = n.page === currentPage ? " is-active" : "";
-    return '<a class="side-dot' + active + '" href="' + n.href + '" title="' + n.label + '"><i></i></a>';
-  }).join("");
-
-  var socialHTML = SOCIAL_LINKS.map(linkHTML).join("");
-
   return (
-    // Collapsed state: one ring per page — filled ring = current page.
-    // Hover (or tap, on touch) reveals the full labeled list below.
-    '<div class="side-collapsed" aria-hidden="true">' + dotsHTML + "</div>" +
-    '<div class="side-expanded">' +
-      '<a class="side-brand" href="' + SITE.brandHref + '" aria-label="' + SITE.name + ' — Home">' +
-        '<span class="side-brand-avatar"><img src="' + SITE.brandImage + '" alt="" /></span>' +
-        '<span class="side-brand-text">' + SITE.name + "<small>" + SITE.role + "</small></span>" +
-      "</a>" +
-      '<div class="side-links" data-side-links>' +
-        '<span class="side-indicator" data-side-indicator aria-hidden="true"></span>' +
-        linksHTML +
-      "</div>" +
-      '<div class="side-foot">' + socialHTML + "</div>" +
+    '<div class="masthead-inner">' +
+      '<a class="site-title" href="index.html">' + SITE.name + "</a>" +
+      '<nav class="nav" aria-label="Main">' + links + "</nav>" +
+      '<button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle day/night mode" title="Toggle day/night mode">' + MOON + SUN + "</button>" +
     "</div>"
   );
 }
 
-function buildFooterHTML() {
-  var linksHTML = FOOTER_LINKS.map(linkHTML).join("");
+function buildSidebar() {
+  var links = AUTHOR_LINKS.map(function (l) {
+    var icon = '<span class="icon icon-' + l.icon + '">' + ICONS[l.icon] + "</span>";
+    if (!l.href) return "<li><span>" + icon + l.label + "</span></li>";
+    var ext = /^https?:/.test(l.href) ? ' target="_blank" rel="noopener"' : "";
+    return '<li><a href="' + l.href + '"' + ext + ' data-no-preview>' + icon + l.label + "</a></li>";
+  }).join("");
+  return (
+    '<img class="author-avatar" src="' + SITE.avatar + '" alt="Portrait of ' + SITE.name + '" />' +
+    '<p class="author-name">' + SITE.name + "</p>" +
+    '<p class="author-bio">' + SITE.bio + "</p>" +
+    '<ul class="author-links">' + links + "</ul>"
+  );
+}
+
+function buildFooter() {
+  var links = NAV_ITEMS.map(function (n) {
+    return '<a href="' + n.href + '" data-no-preview>' + n.label + "</a>";
+  }).join("");
   return (
     '<div class="footer-inner">' +
-      "<p>&copy; 2026 " + SITE.name + ". Dhaka, Bangladesh.</p>" +
-      '<div class="footer-links">' + linksHTML + "</div>" +
+      "<span>&copy; " + new Date().getFullYear() + " " + SITE.name + ". Dhaka, Bangladesh.</span>" +
+      "<nav>" + links + "</nav>" +
     "</div>"
   );
+}
+
+// Fills every <ul data-news> in `root`. data-news="5" limits the count.
+function renderNews(root) {
+  var lists = root.querySelectorAll("[data-news]");
+  Array.prototype.forEach.call(lists, function (ul) {
+    var limit = parseInt(ul.getAttribute("data-news"), 10) || NEWS.length;
+    ul.classList.add("news");
+    ul.innerHTML = NEWS.slice(0, limit).map(function (n) {
+      return '<li><span class="news-date">' + n.date + "</span><span>" + n.text + "</span></li>";
+    }).join("");
+  });
+}
+
+/* ---------- Day / night ---------- */
+function setTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  try { localStorage.setItem("theme", theme); } catch (e) {}
+}
+
+/* ============================================================
+   LINK PREVIEWS — hover an internal link to see the page it
+   points to (scrollable, readable in place). Links to PDFs
+   open the document itself inside the popover.
+   Only on devices with a real mouse; touch taps just navigate.
+   Add data-no-preview to any <a> to opt it out.
+   ============================================================ */
+function initPreviews() {
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  if (location.protocol === "file:") return; // fetch() is blocked on file:// — use a local server to test
+
+  var pop = document.createElement("div");
+  pop.className = "preview";
+  pop.setAttribute("role", "tooltip");
+  document.body.appendChild(pop);
+
+  var cache = {};
+  var showTimer = null;
+  var hideTimer = null;
+  var currentLink = null;
+  var here = location.pathname.split("/").pop() || "index.html";
+
+  function previewable(a) {
+    if (!a || a.hasAttribute("data-no-preview") || a.closest(".preview, .masthead")) return null;
+    var raw = a.getAttribute("href");
+    if (!raw || raw.charAt(0) === "#" || /^(mailto|tel|javascript):/i.test(raw)) return null;
+    var url = new URL(raw, location.href);
+    if (url.origin !== location.origin) return null;
+    var file = url.pathname.split("/").pop() || "index.html";
+    if (/\.pdf$/i.test(file)) return { url: url, kind: "pdf" };
+    if (!/\.html$/i.test(file)) return null;
+    if (file === here) return null; // same page — just an anchor jump
+    return { url: url, kind: "html" };
+  }
+
+  function load(target) {
+    var key = target.url.pathname;
+    if (!cache[key]) {
+      cache[key] = fetch(key)
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, "text/html");
+          var main = doc.querySelector(".page-content");
+          if (!main) throw new Error("no content");
+          renderNews(main);
+          return main.innerHTML;
+        });
+    }
+    return cache[key];
+  }
+
+  // Put the popover below the link, or above it if there's more room
+  // there, and shrink it so it never runs off the window.
+  function place(a) {
+    var r = a.getBoundingClientRect();
+    var gap = 8;
+    var edge = 12;
+    var spaceBelow = window.innerHeight - r.bottom - gap - edge;
+    var spaceAbove = r.top - gap - edge;
+    pop.style.maxHeight = "";
+    pop.style.height = "";
+    var h = pop.offsetHeight;
+    var below = h <= spaceBelow || spaceBelow >= spaceAbove;
+    var room = below ? spaceBelow : spaceAbove;
+    if (h > room) {
+      pop.style[pop.classList.contains("is-pdf") ? "height" : "maxHeight"] = room + "px";
+      h = room;
+    }
+    var w = pop.offsetWidth;
+    var left = Math.min(Math.max(16, r.left), window.innerWidth - w - 16);
+    var top = below ? r.bottom + gap : r.top - gap - h;
+    pop.style.left = left + window.scrollX + "px";
+    pop.style.top = top + window.scrollY + "px";
+  }
+
+  function show(a, target) {
+    currentLink = a;
+    if (target.kind === "pdf") {
+      pop.className = "preview is-pdf";
+      pop.innerHTML = '<iframe src="' + target.url.pathname + '#view=FitH" title="PDF preview"></iframe>';
+      place(a);
+      pop.classList.add("is-visible");
+      return;
+    }
+    load(target).then(function (html) {
+      if (currentLink !== a) return;
+      pop.className = "preview";
+      pop.innerHTML = html;
+      pop.scrollTop = 0;
+      place(a);
+      if (target.url.hash) {
+        var id = decodeURIComponent(target.url.hash.slice(1));
+        var el = pop.querySelector('[id="' + id.replace(/"/g, "") + '"]');
+        if (el) pop.scrollTop = el.offsetTop - 12;
+      }
+      // Avoid duplicate ids in the document.
+      Array.prototype.forEach.call(pop.querySelectorAll("[id]"), function (n) { n.removeAttribute("id"); });
+      pop.classList.add("is-visible");
+    }).catch(function () { /* no preview — the link still works */ });
+  }
+
+  function hide() {
+    currentLink = null;
+    pop.classList.remove("is-visible");
+    pop.innerHTML = "";
+  }
+
+  document.addEventListener("mouseover", function (e) {
+    if (pop.contains(e.target)) { clearTimeout(hideTimer); return; }
+    var a = e.target.closest && e.target.closest("a");
+    if (a && a === currentLink) { clearTimeout(hideTimer); return; }
+    // Pointer is somewhere else on the page (this also catches leaving a
+    // PDF iframe, which swallows its own mouse events) — close soon.
+    if (currentLink) { clearTimeout(hideTimer); hideTimer = setTimeout(hide, 250); }
+    var target = previewable(a);
+    if (!target) return;
+    clearTimeout(showTimer);
+    showTimer = setTimeout(function () { show(a, target); }, 300);
+  });
+
+  document.addEventListener("mouseout", function (e) {
+    var a = e.target.closest && e.target.closest("a");
+    var leavingPop = pop.contains(e.target) && !pop.contains(e.relatedTarget);
+    if ((a && previewable(a)) || leavingPop) {
+      clearTimeout(showTimer);
+      if (e.relatedTarget && pop.contains(e.relatedTarget)) return;
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(hide, 250);
+    }
+  });
+
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") hide(); });
+  window.addEventListener("resize", hide);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  var currentPage = document.body.getAttribute("data-page");
+  var page = document.body.getAttribute("data-page");
 
-  /* ---------- Build footer from data ---------- */
-  var footerMount = document.querySelector("[data-footer-mount]");
-  if (footerMount) {
-    footerMount.innerHTML = buildFooterHTML();
+  var mast = document.querySelector("[data-masthead-mount]");
+  if (mast) mast.innerHTML = buildMasthead(page);
+
+  var side = document.querySelector("[data-sidebar-mount]");
+  if (side) side.innerHTML = buildSidebar();
+
+  var foot = document.querySelector("[data-footer-mount]");
+  if (foot) foot.innerHTML = buildFooter();
+
+  renderNews(document);
+
+  var toggle = document.querySelector("[data-theme-toggle]");
+  if (toggle) {
+    toggle.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      setTheme(dark ? "light" : "dark");
+    });
   }
 
-  /* ---------- SIDEBAR: always visible, sliding highlight ---------- */
-  var spine = document.querySelector("[data-spine]");
-
-  if (spine) {
-    spine.innerHTML = buildSpineHTML(currentPage);
-
-    // Touch fallback: hover doesn't exist on touch devices, so tapping
-    // the collapsed rail (outside an actual link) pins it open; tapping
-    // a link, tapping elsewhere, or Escape closes it again.
-    spine.addEventListener("click", function (e) {
-      if (!e.target.closest("a")) {
-        spine.classList.toggle("is-open");
-      }
-    });
-    document.addEventListener("click", function (e) {
-      if (spine.classList.contains("is-open") && !spine.contains(e.target)) {
-        spine.classList.remove("is-open");
-      }
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") {
-        spine.classList.remove("is-open");
-      }
-    });
-
-    var sideLinksWrap = spine.querySelector("[data-side-links]");
-    var indicator = spine.querySelector("[data-side-indicator]");
-    var linkEls = spine.querySelectorAll(".side-link");
-    var activeLink = spine.querySelector(".side-link.is-active") || linkEls[0];
-
-    function isHorizontalNav() {
-      return window.matchMedia("(max-width: 760px)").matches;
-    }
-
-    function moveIndicatorTo(el) {
-      if (!el || !indicator) return;
-      if (isHorizontalNav()) {
-        indicator.style.width = el.offsetWidth + "px";
-        indicator.style.height = "3px";
-        indicator.style.top = "auto";
-        indicator.style.bottom = "0";
-        indicator.style.transform = "translateX(" + el.offsetLeft + "px)";
-      } else {
-        indicator.style.width = "3px";
-        indicator.style.height = el.offsetHeight + "px";
-        indicator.style.bottom = "auto";
-        indicator.style.top = "0";
-        indicator.style.transform = "translateY(" + el.offsetTop + "px)";
-      }
-    }
-
-    if (indicator && activeLink) {
-      linkEls.forEach(function (a) {
-        a.addEventListener("mouseenter", function () { moveIndicatorTo(a); });
-        a.addEventListener("focus", function () { moveIndicatorTo(a); });
-      });
-      if (sideLinksWrap) {
-        sideLinksWrap.addEventListener("mouseleave", function () { moveIndicatorTo(activeLink); });
-      }
-      window.addEventListener("resize", function () { moveIndicatorTo(activeLink); });
-      window.addEventListener("load", function () { moveIndicatorTo(activeLink); });
-      // Fonts/layout may still be settling on first paint — snap into place shortly after.
-      requestAnimationFrame(function () { moveIndicatorTo(activeLink); });
-      setTimeout(function () { moveIndicatorTo(activeLink); }, 200);
-    }
-  }
-
-  /* ---------- CURTAIN PHOTO BLUR ----------
-     Photos are sharp when centered in the viewport and blur
-     progressively — like a curtain drawing across them — as
-     they scroll toward the top or bottom edge.
-  ------------------------------------------- */
-  var curtainImgs = Array.prototype.filter.call(
-    document.querySelectorAll(".curtain-photo img, .card-thumb img"),
-    function (img) {
-      // Featured Work thumbnails already get their own left/right blur
-      // from the carousel below — skip them here to avoid double-blurring.
-      return !img.closest(".featured-card");
-    }
-  );
-
-  if (curtainImgs.length) {
-    var ticking = false;
-    var MAX_BLUR_PX = 9;
-    var MAX_SCALE_BUMP = 0.035;
-    var MAX_OPACITY_DROP = 0.3;
-
-    function updateCurtain() {
-      var vh = window.innerHeight;
-
-      curtainImgs.forEach(function (img) {
-        var rect = img.getBoundingClientRect();
-
-        if (rect.bottom < -200 || rect.top > vh + 200) {
-          return;
-        }
-
-        var center = rect.top + rect.height / 2;
-        var dist = Math.abs(center - vh / 2);
-        var maxDist = vh / 2 + rect.height / 2;
-        var ratio = Math.min(1, dist / (maxDist || 1));
-
-        img.style.filter = "blur(" + (ratio * MAX_BLUR_PX).toFixed(2) + "px)";
-        img.style.transform = "scale(" + (1 + ratio * MAX_SCALE_BUMP).toFixed(3) + ")";
-        img.style.opacity = (1 - ratio * MAX_OPACITY_DROP).toFixed(2);
-      });
-
-      ticking = false;
-    }
-
-    function requestCurtainUpdate() {
-      if (!ticking) {
-        window.requestAnimationFrame(updateCurtain);
-        ticking = true;
-      }
-    }
-
-    window.addEventListener("scroll", requestCurtainUpdate, { passive: true });
-    window.addEventListener("resize", requestCurtainUpdate);
-    updateCurtain();
-  }
-
-  /* ---------- FEATURED WORK CAROUSEL ----------
-     A horizontally-scrolling, snap-aligned row where only the
-     centered card stays sharp; the rest blur/recede by distance
-     from center. Drag/scroll or use the arrow buttons to browse.
-  ------------------------------------------- */
-  var track = document.querySelector("[data-featured-track]");
-
-  if (track) {
-    var viewport = track.parentElement; // .featured-viewport — the element that actually scrolls
-    var cards = track.querySelectorAll(".featured-card");
-    var featureTicking = false;
-
-    function updateFeatured() {
-      var trackRect = track.getBoundingClientRect();
-      var centerX = trackRect.left + trackRect.width / 2;
-
-      cards.forEach(function (card) {
-        var rect = card.getBoundingClientRect();
-        var cardCenter = rect.left + rect.width / 2;
-        var dist = Math.abs(cardCenter - centerX);
-        var maxDist = trackRect.width / 2 + rect.width / 2;
-        var ratio = Math.min(1, dist / (maxDist || 1));
-
-        card.style.filter = "blur(" + (ratio * 6.5).toFixed(2) + "px)";
-        card.style.opacity = (1 - ratio * 0.6).toFixed(2);
-        card.style.transform = "scale(" + (1 - ratio * 0.12).toFixed(3) + ")";
-      });
-
-      featureTicking = false;
-    }
-
-    function requestFeaturedUpdate() {
-      if (!featureTicking) {
-        window.requestAnimationFrame(updateFeatured);
-        featureTicking = true;
-      }
-    }
-
-    viewport.addEventListener("scroll", requestFeaturedUpdate, { passive: true });
-    window.addEventListener("resize", requestFeaturedUpdate);
-    requestAnimationFrame(updateFeatured);
-    setTimeout(updateFeatured, 250);
-
-    var prevBtn = document.querySelector("[data-featured-prev]");
-    var nextBtn = document.querySelector("[data-featured-next]");
-    function scrollByCard(dir) {
-      var card = cards[0];
-      var step = card ? card.getBoundingClientRect().width + 28 : 300;
-      viewport.scrollBy({ left: dir * step, behavior: "smooth" });
-    }
-    if (prevBtn) prevBtn.addEventListener("click", function () { scrollByCard(-1); });
-    if (nextBtn) nextBtn.addEventListener("click", function () { scrollByCard(1); });
-
-    // A plain vertical mouse wheel can't scroll a horizontal track —
-    // translate vertical wheel motion into horizontal scroll here.
-    viewport.addEventListener(
-      "wheel",
-      function (e) {
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-          viewport.scrollLeft += e.deltaY;
-          e.preventDefault();
-        }
-      },
-      { passive: false }
-    );
-
-    // Click-and-drag scrolling for mouse users (touch/trackpad already
-    // scroll natively via the browser).
-    var isDragging = false;
-    var dragStartX = 0;
-    var dragStartScroll = 0;
-    var dragMoved = false;
-
-    viewport.addEventListener("pointerdown", function (e) {
-      if (e.pointerType === "touch") return;
-      isDragging = true;
-      dragMoved = false;
-      dragStartX = e.clientX;
-      dragStartScroll = viewport.scrollLeft;
-      viewport.setPointerCapture(e.pointerId);
-    });
-
-    viewport.addEventListener("pointermove", function (e) {
-      if (!isDragging) return;
-      var delta = e.clientX - dragStartX;
-      if (Math.abs(delta) > 3) dragMoved = true;
-      viewport.scrollLeft = dragStartScroll - delta;
-    });
-
-    function endDrag() {
-      isDragging = false;
-    }
-    viewport.addEventListener("pointerup", endDrag);
-    viewport.addEventListener("pointercancel", endDrag);
-
-    // Prevent an accidental click-through (e.g. opening a project link)
-    // right after a drag gesture.
-    viewport.addEventListener(
-      "click",
-      function (e) {
-        if (dragMoved) {
-          e.preventDefault();
-          e.stopPropagation();
-          dragMoved = false;
-        }
-      },
-      true
-    );
-  }
+  initPreviews();
 });
