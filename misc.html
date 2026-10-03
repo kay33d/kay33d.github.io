@@ -1,0 +1,26 @@
+---
+title: Misc
+description: News, teaching, education, research, leadership and contact details for Md Kaidul Islam.
+---
+{%- comment -%}
+  This page is assembled from the _misc/ folder — one Markdown file per section.
+  Edit those files, not this one. Front matter fields:
+    title       section heading
+    anchor      short name for links: misc.html#anchor (hovering previews just this section)
+    order       position on the page (smaller = higher)
+    published   set to false to hide a section without deleting it
+    news        true = show the news list from _data/news.yml in this section
+  Under an entry title (### ...), a line followed by {: .entry-meta} is shown small and grey.
+{%- endcomment -%}
+{%- assign sections = site.misc | sort: "order" -%}
+      <h1 data-preview>Misc</h1>
+      <p class="muted" data-preview>
+        {%- for s in sections %}<a href="#{{ s.anchor }}">{{ s.title | split: " " | first }}</a>{% unless forloop.last %} · {% endunless %}{% endfor -%}
+      </p>
+{% for s in sections %}
+      <h2 id="{{ s.anchor }}">{{ s.title }}</h2>
+{{ s.content | markdownify }}
+{%- if s.news %}
+{% include news.html %}
+{%- endif %}
+{% endfor %}

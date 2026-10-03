@@ -12,9 +12,10 @@ _data/navigation.yml Top menu
 _projects/*.md       One file per project (details, report, code, video links)
 _publications/*.md   One file per publication
 index.md             About (home page)
-misc.md              Teaching, education, research, leadership, interests, contact
+_misc/*.md           One file per Misc section (teaching, education, research, ...)
 cv.html              CV page (embeds assets/CV.pdf)
 projects.html        Page template that lists _projects/ (no need to edit)
+misc.html            Page template that lists _misc/ (no need to edit)
 publications.html    Page template that lists _publications/ (no need to edit)
 assets/reports/      Project report PDFs
 _layouts/, _includes/  Shared page frame: menu, sidebar, footer, news list
@@ -33,7 +34,8 @@ are redirects so old links keep working.
 - **Add a report:** put the PDF in `assets/reports/` and set `report:` in the project file.
 - **Add a video:** upload to YouTube (Unlisted is fine) and set `video:` in the project file.
 - **Update CV:** replace `assets/CV.pdf` (same name).
-- **Optional sections** (awards, test scores, tutorials): templates are commented out in `misc.md`.
+- **Misc sections:** edit the file in `_misc/`. Add a section by copying one; reorder with `order:`.
+- **Optional sections** (awards, test scores, tutorials): already in `_misc/` with `published: false` — change it to `true` to show one.
 
 ## Link previews
 

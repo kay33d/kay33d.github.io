@@ -23,6 +23,8 @@ collections:
     output: false
   publications:
     output: false
+  misc:          # one file per section of the Misc page
+    output: false
 
 markdown: kramdown
 kramdown:
