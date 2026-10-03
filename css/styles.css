@@ -332,6 +332,12 @@ code { font-family: var(--font-mono); font-size: 0.88em; }
 }
 .preview.is-visible { opacity: 1; transform: none; pointer-events: auto; }
 .preview h1 { font-size: 1.15rem; }
+.preview > :first-child,
+.preview > section > h2:first-child,
+.preview > .entry:first-child { margin-top: 0; padding-top: 0; }
+.preview > .entry:only-child { padding-bottom: 0; border-bottom: 0; }
+.preview-list { margin: 0.25rem 0 0; }
+.preview-list li { margin-bottom: 0.15rem; }
 .preview h2 { font-size: 0.95rem; margin-top: 1.2em; }
 .preview .entry:not(.no-thumb) { grid-template-columns: 5rem minmax(0, 1fr); gap: 0.8rem; padding: 0.7rem 0; }
 .preview .pdf-frame { height: 22rem; min-height: 0; }

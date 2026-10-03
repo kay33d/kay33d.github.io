@@ -13,7 +13,7 @@
 
 var SITE = {
   name: "Md Kaidul Islam",
-  bio: "EEE graduate, BUET. Computer vision, NLP &amp; deep learning.",
+  bio: "Adjunct Lecturer, Manarat International University. EEE, BUET. Computer vision, NLP &amp; deep learning.",
   avatar: "assets/profile.jpg"
 };
 
@@ -29,13 +29,15 @@ var NAV_ITEMS = [
 // site get a hover preview automatically.
 // The home page shows the first few; misc.html shows them all.
 var NEWS = [
+  { date: "Sep 2026", text: "Joined <a href=\"misc.html#teaching\">Manarat International University</a> as an Adjunct Lecturer, teaching Computer Programming and Computer Programming Laboratory." },
   { date: "Jun 2026", text: "Graduated with a B.Sc. in Electrical and Electronic Engineering from <a href=\"misc.html#education\">BUET</a>." },
   { date: "Apr 2026", text: "Completed my undergraduate thesis on <a href=\"misc.html#research\">tokenization and forgetting in Bangla OCR</a>." },
   { date: "2026", text: "Started two new projects: a <a href=\"projects.html#hybrid-router\">hybrid LLM router</a> and an <a href=\"projects.html#knee-mri\">edge-deployable knee MRI classifier</a>." },
   { date: "Jun 2025", text: "Co-founded the <a href=\"misc.html#leadership\">Thakurgaon Science Society</a> to bring hands-on science to remote schools." },
   { date: "May 2025", text: "Our paper <a href=\"publications.html#cae-net\">CAE-Net</a> on generalized deepfake detection was published in JVCIR (Elsevier, Q1)." },
   { date: "Apr 2025", text: "Started my thesis with Dr. Maruf Ahmed, Dept. of EEE, BUET." },
-  { date: "Mar 2024", text: "Became General Secretary of IEEE EDS BUET Student Branch and Vice President of BUET Literature Club." }
+  { date: "Mar 2025", text: "Became Vice President of BUET Literature Club." },
+  { date: "Mar 2024", text: "Became General Secretary of IEEE EDS BUET Student Branch." }
 ];
 
 var ICONS = {
@@ -117,9 +119,10 @@ function setTheme(theme) {
 }
 
 /* ============================================================
-   LINK PREVIEWS — hover an internal link to see the page it
-   points to (scrollable, readable in place). Links to PDFs
-   open the document itself inside the popover.
+   LINK PREVIEWS — hover an internal link to see what it points
+   to: just the linked project/section for links with a #id, a
+   short overview for whole pages (see excerpt() below). Links
+   to PDFs open the document itself inside the popover.
    Only on devices with a real mouse; touch taps just navigate.
    Add data-no-preview to any <a> to opt it out.
    ============================================================ */
@@ -151,6 +154,7 @@ function initPreviews() {
     return { url: url, kind: "html" };
   }
 
+  // Resolves to the linked page's <main>, parsed once and cached.
   function load(target) {
     var key = target.url.pathname;
     if (!cache[key]) {
@@ -161,10 +165,55 @@ function initPreviews() {
           var main = doc.querySelector(".page-content");
           if (!main) throw new Error("no content");
           renderNews(main);
-          return main.innerHTML;
+          return main;
         });
     }
     return cache[key];
+  }
+
+  // What the popover shows:
+  //  - link with #id  -> only that item (the <article> or <section> holding it)
+  //  - plain page link -> elements marked data-preview, or else the page title,
+  //                       its first paragraph and a list of what's on the page
+  function excerpt(main, url) {
+    var out = document.createElement("div");
+    var page = url.pathname.split("/").pop() || "index.html";
+    var add = function (n) { if (n) out.appendChild(n.cloneNode(true)); };
+
+    var id = decodeURIComponent(url.hash.slice(1));
+    var target = id && main.querySelector('[id="' + id.replace(/"/g, "") + '"]');
+    if (target) {
+      add(target.closest("article, section") || target);
+    } else {
+      var marked = main.querySelectorAll("[data-preview]");
+      if (marked.length) {
+        Array.prototype.forEach.call(marked, add);
+      } else {
+        add(main.querySelector("h1"));
+        add(main.querySelector("h1 ~ p"));
+        var items = main.querySelectorAll("article[id], section[id]");
+        if (items.length) {
+          var ul = document.createElement("ul");
+          ul.className = "preview-list";
+          Array.prototype.forEach.call(items, function (it) {
+            var title = it.querySelector(".entry-title, h2");
+            if (!title) return;
+            var li = document.createElement("li");
+            li.innerHTML = '<a href="' + page + "#" + it.id + '">' + title.textContent.trim() + "</a>";
+            ul.appendChild(li);
+          });
+          out.appendChild(ul);
+        }
+      }
+    }
+
+    // In-page anchors must point at the linked page, not this one;
+    // and drop ids so they don't clash with this document's.
+    Array.prototype.forEach.call(out.querySelectorAll('a[href^="#"]'), function (a) {
+      a.setAttribute("href", page + a.getAttribute("href"));
+    });
+    Array.prototype.forEach.call(out.querySelectorAll("[id]"), function (n) { n.removeAttribute("id"); });
+    return out.innerHTML;
   }
 
   // Put the popover below the link, or above it if there's more room
@@ -195,24 +244,17 @@ function initPreviews() {
     currentLink = a;
     if (target.kind === "pdf") {
       pop.className = "preview is-pdf";
-      pop.innerHTML = '<iframe src="' + target.url.pathname + '#view=FitH" title="PDF preview"></iframe>';
+      pop.innerHTML = '<iframe src="' + target.url.pathname + '#navpanes=0&pagemode=none&view=FitH" title="PDF preview"></iframe>';
       place(a);
       pop.classList.add("is-visible");
       return;
     }
-    load(target).then(function (html) {
+    load(target).then(function (main) {
       if (currentLink !== a) return;
       pop.className = "preview";
-      pop.innerHTML = html;
+      pop.innerHTML = excerpt(main, target.url);
       pop.scrollTop = 0;
       place(a);
-      if (target.url.hash) {
-        var id = decodeURIComponent(target.url.hash.slice(1));
-        var el = pop.querySelector('[id="' + id.replace(/"/g, "") + '"]');
-        if (el) pop.scrollTop = el.offsetTop - 12;
-      }
-      // Avoid duplicate ids in the document.
-      Array.prototype.forEach.call(pop.querySelectorAll("[id]"), function (n) { n.removeAttribute("id"); });
       pop.classList.add("is-visible");
     }).catch(function () { /* no preview — the link still works */ });
   }
