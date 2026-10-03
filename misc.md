@@ -66,7 +66,7 @@ Led the organization of "BUET Boimela," a major campus literary event, coordinat
 ## Editorial {#editorial}
 
 ### Main Editor, EEE Day 2026 Magazine — *Toritbarta*
-Sept 2026
+Sep 2026
 {: .entry-meta}
 
 Led the editing and publication of the EEE Day 2026 magazine. [Read the magazine ↗](https://drive.google.com/file/d/1FaK69lSalh3nXqgUpgSPOpXGHre0B0bO/view){:target="_blank" rel="noopener"}
