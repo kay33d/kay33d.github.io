@@ -3,13 +3,13 @@
 # automatically on every push — nothing to install.
 # ============================================================
 title: Md Kaidul Islam
-description: Md Kaidul Islam — Adjunct Lecturer at Manarat International University and EEE graduate from BUET, working on computer vision, NLP and deep learning.
+description: Md Kaidul Islam — EEE graduate from BUET, working on computer vision, NLP and deep learning.
 url: https://kay33d.github.io
 
 # ---- Sidebar ----
 author:
   name: Md Kaidul Islam
-  bio: Adjunct Lecturer, Manarat International University. EEE, BUET. Computer vision, NLP &amp; deep learning.
+  bio: EEE graduate, BUET. Computer vision, NLP &amp; deep learning.
   avatar: assets/profile.jpg
   location: Dhaka, Bangladesh
   email: kaidul.tkg@gmail.com

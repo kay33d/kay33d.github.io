@@ -12,7 +12,7 @@ _data/navigation.yml Top menu
 _projects/*.md       One file per project (details, report, code, video links)
 _publications/*.md   One file per publication
 index.md             About (home page)
-_misc/*.md           One file per Misc section (teaching, education, research, ...)
+_misc/*.md           One file per Misc section (education, research, leadership, ...)
 cv.html              CV page (embeds assets/CV.pdf)
 projects.html        Page template that lists _projects/ (no need to edit)
 misc.html            Page template that lists _misc/ (no need to edit)
@@ -41,7 +41,7 @@ are redirects so old links keep working.
 
 Hovering a link to another page on this site shows what it points to:
 - `projects.html#robotic-arm` → just that project
-- `misc.html#teaching` → just that section
+- `misc.html#research` → just that section
 - `projects.html` → the page title and a list of what's on it
 - a `.pdf` link → the PDF itself, readable in place
 
