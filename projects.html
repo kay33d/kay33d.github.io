@@ -12,6 +12,7 @@ description: Engineering and machine learning projects by Md Kaidul Islam.
     tags        list of keywords
     report      optional PDF in assets/reports/ (hovering the link shows the PDF)
     code        optional GitHub link; code_label changes its text
+    youtube     optional YouTube video ID (the part after youtu.be/): embeds the player
     video       optional YouTube / Drive link
     image       optional thumbnail, e.g. assets/project-7.jpg
 {%- endcomment -%}
@@ -27,6 +28,11 @@ description: Engineering and machine learning projects by Md Kaidul Islam.
           <h3 class="entry-title">{{ p.title }}</h3>
           <p class="entry-meta">{{ p.when }}</p>
           {{ p.content | markdownify }}
+          {%- if p.youtube %}
+          <div class="video">
+            <iframe src="https://www.youtube-nocookie.com/embed/{{ p.youtube }}" title="{{ p.title | escape }} — video" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+          </div>
+          {%- endif %}
           {%- if p.tags %}
           <p class="tags">{{ p.tags | join: " · " }}</p>
           {%- endif %}

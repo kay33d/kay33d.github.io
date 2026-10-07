@@ -6,8 +6,8 @@ order: 8
 tags: [Arduino, ESP32-CAM, ArUco, sensors & actuators, mechatronics]
 report: assets/reports/librarian-arm-report.pdf
 code: https://github.com/Chrollo8/Librarian-Arm
-# video: upload to YouTube (Unlisted is fine) and put the link here, e.g.
-# video: https://youtu.be/VIDEO_ID
+youtube: mLVQxI9rSMY   # YouTube video ID: plays inside the project description
+video: https://youtu.be/mLVQxI9rSMY
 ---
 A low-cost robot that finds a specific book on a shelf and pulls it out without damaging it.
 
